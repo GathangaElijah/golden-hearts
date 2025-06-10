@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "School Lunch Program",
+    "description": "Provide meals for students in rural schools",
+    "goal_amount": 50000
+  },
+  {
+    "id": 2,
+    "title": "Clean Water",
+    "description": "Drill boreholes in dry regions",
+    "goal_amount": 75000
+  }
+]
