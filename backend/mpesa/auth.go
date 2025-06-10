@@ -1,0 +1,5 @@
+package mpesa
+
+func Auth() {
+
+}
