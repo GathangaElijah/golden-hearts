@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"golden-hearts/backend/mpesa"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	"golden-hearts/backend/mpesa"
 )
 
 type DonationRequest struct {
@@ -48,7 +49,7 @@ func DonationsHandler() http.Handler {
 		}
 
 		//  Log donation
-		log := fmt.Sprintf("%s | %s donated KES %d to project %s\n", time.Now().Format(time.RFC3339), donation.Name, donation.Amount, donation.ProjectID)
+		log := fmt.Sprintf("%s | %s donated KES %d to project %v\n", time.Now().Format(time.RFC3339), donation.Name, donation.Amount, donation.ProjectID)
 		_ = appendToFile("donations.txt", log)
 
 		w.Header().Set("Content-Type", "application/json")
@@ -56,7 +57,7 @@ func DonationsHandler() http.Handler {
 	})
 }
 
-func simulateC2BPayment(token string, d Donation) error {
+func SimulateC2BPayment(token string, d DonationRequest) error {
 	url := "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate"
 
 	payload := map[string]interface{}{
@@ -87,7 +88,7 @@ func simulateC2BPayment(token string, d Donation) error {
 }
 
 func appendToFile(filePath string, text string) error {
-	f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return err
 	}
